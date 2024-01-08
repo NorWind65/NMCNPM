@@ -7,17 +7,19 @@ public class Room {
     private String roomType;
     private double roomPrice;
     private String roomStatus;
+    private String roomDescription;
 
     public Room() {
     };
 
-    public Room(String roomID, String roomName, int roomAmount, String roomType, double roomPrice, String roomStatus) {
+    public Room(String roomID, String roomName, int roomAmount, String roomType, double roomPrice, String roomStatus, String roomDescription) {
         this.roomID = roomID;
         this.roomName = roomName;
         this.roomAmount = roomAmount;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
         this.roomStatus = roomStatus;
+        this.roomDescription = roomDescription;
     }
 
     public String getRoomID() {
@@ -67,4 +69,12 @@ public class Room {
     public void setRoomStatus(String roomStatus) {
         this.roomStatus = roomStatus;
     }
+
+	public String getRoomDescription() {
+		return roomDescription;
+	}
+
+	public void setRoomDescription(String roomDescription) {
+		this.roomDescription = roomDescription;
+	}
 }

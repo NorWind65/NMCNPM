@@ -1,3 +1,7 @@
+<%@ page import= "DAO.OrderDAO" %>
+<%@ page import ="java.util.ArrayList"%>
+<%@ page import ="model.Order"  %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -203,61 +207,82 @@
             </div>
            
             <!-- Danh sách đơn đặt phòng -->
-            <div class="management-content-container list-book-room ">
-                <div class="title">Danh sách đơn đặt phòng</div>
-                <div class="search">
-                  <input
-                    type="text"
-                    id="search"
-                    name="search"
-                    placeholder="Nhập mã đặt phòng"
-                  />
-                  <button class="btn-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    Tìm kiếm
-                  </button>
-                </div>
-                <div class="management-content">
-                  <div class="rooms">
-                    <table id="bb" style="width: 100%">
-                      <tr>
-                        <th style="width: 5%">STT</th>
-                        <th style="width: 10%">Tên phòng</th>
-                        <th style="width: 25%">Tên khách hàng</th>
-                        <th style="width: 30%">Thông tin phòng</th>
-                        <th style="width: 10%">Mã đặt phòng</th>
-                        <th style="width: 10%">Trạng thái</th>
-                        <th style="width: 10%">Hành động</th>
-                      </tr>
-                      <tr class="book-room">
-                        <td>1</td>
-                        <td>Phòng 101</td>
-                        <td style="text-align: left">
-                          <ul>
-                            <li><span>Tên:</span>Nguyễn Văn A</li>
-                            <li><span>Email:</span>nguyenvana@gmail.com</li>
-                            <li><span>Phone:</span> 0313232232</li>
-                          </ul>
-                        </td>
-                        <td style="text-align: left">
-                          <ul>
-                            <li><span>Ngày nhận phòng:</span>2023-03-17:20:10</li>
-                            <li><span>Ngày trả phòng:</span>2023-03-17:20:10</li>
-                            <li><span>Tổng tiền:</span>2.400.000 VND</li>
-                          </ul>
-                        </td>
-                        <td>123456</td>
-                        <td>Đã thanh toán</td>
-                        <td>
-                          <button class="btn-delete-room">
-                            <i class="fa-solid fa-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-            </div>
+          <div class="staff-content-container list-book-room" >
+      <div class="title">Danh sách đơn đặt phòng</div>
+      <div class="search">
+        <input
+          type="text"
+          id="search"
+          name="search"
+          placeholder="Nhập mã đặt phòng"
+        />
+        <button class="btn-search" onclick = >
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Tìm kiếm
+        </button>
+      </div>
+      <div class="staff-content">
+        <div class="rooms">
+          <table style="width: 100%">
+            <tr>
+              <th style="width: 5%">STT</th>
+              <th style="width: 10%">Tên phòng</th>
+              <th style="width: 25%">Tên khách hàng</th>
+              <th style="width: 30%">Thông tin phòng</th>
+              <th style="width: 10%">Mã đặt phòng</th>
+              <th style="width: 10%">Trạng thái</th>
+              <th style="width: 10%">Hành động</th>
+            </tr>  
+           <%
+           		int stt=1;
+           		ArrayList<Order> list = new OrderDAO().selectAll();
+           		if(list != null){
+	           		for(Order od : list){
+	           			out.print("<tr class=\"book-room\">");
+	           			
+	           			out.print("<td>"+stt+"</td>");stt++;
+	           			out.print("<td>"+od.getRoomID()+"</td>");
+	           			
+		           			out.print("<td style=\"text-align: left\">");
+		           			out.print("<ul>");
+		           			out.print("<li><span>Tên:</span>"+od.getCustomerName()+"</li>");
+		           			out.print("<li><span>CCCD:</span>"+od.getCustomerCitizenID()+"</li>");
+		           			out.print("<li><span>Phone:</span>"+od.getCustomerPhoneNumber()+"</li>");
+		           			out.print("</ul>");
+			            	out.print("</td>");
+			            	
+			            	out.print("<td style=\"text-align: left\">");
+		           			out.print("<ul>");
+		           			out.print("<li><span>Ngày nhận phòng:</span>"+od.getTimeStart()+"</li>");
+		           			out.print("<li><span>Ngày trả phòng:</span>"+od.getTimeEnd()+"</li>");
+		           			out.print("<li><span>Tổng tiền:</span>"+od.getOrderPrice()+"</li>");
+		           			out.print("</ul>");
+			            	out.print("</td>");
+			            	
+			            	out.print("<td>"+od.getOrderID()+"</td>");
+			            	out.print("<td>"+od.getOrderStatus()+"</td>");
+			            	
+			            	out.print("<td>");
+			                out.print("<button class=\"btn-edit-room\" onclick=\"handleEditBookRoom()\"> " );
+			                out.print("<i class=\"fa-solid fa-pen\"></i>");
+			              	out.print("</button>");
+			              	out.print("<button class=\"btn-delete-room\" >" );
+			                out.print("<i class=\"fa-solid fa-trash\" ></i>");
+			              	out.print("</button>");
+			            	out.print("</td>");
+	           			out.print("</tr>");
+           			}
+           		}
+           		
+           %>
+            
+            
+             
+          </table>
+        </div>
+        
+      </div>
+    </div>
 
             
             <!-- Thêm Phòng Mới -->
@@ -274,7 +299,7 @@
                   
                     <div class="room-image">
                         <label for="room-image">Id</label>
-                        <input type="" id="room-image" name="room-image" />
+                        <input type="text" id="room-image" name="room-image" />
                     </div>
                     <div class="room-type">
                         <label for="room-type">Loại phòng</label>

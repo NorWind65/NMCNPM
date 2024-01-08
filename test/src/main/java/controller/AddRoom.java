@@ -1,11 +1,18 @@
 package controller;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import DAO.RoomDAO;
+import model.Room;
 
 /**
  * Servlet implementation class AddRoom
@@ -27,7 +34,46 @@ public class AddRoom extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String roomID = request.getParameter("room-id");
+		String roomName = request.getParameter("room-name");
+		String roomType = request.getParameter("roomType");
+		String roomAmountString = request.getParameter("roomAmount");
+		String roomPriceString = request.getParameter("room-price");
+		String roomStatus = request.getParameter("roomStatus");
+		String roomDescription = request.getParameter("room-description");
+		
+		String url = "";
+		String baoLoi = "";
+		RoomDAO roomDAO = new RoomDAO();
+		int roomAmount = 0;
+		double roomPrice = 0;
+		
+		try {
+			roomAmount = Integer.parseInt(roomAmountString);
+		} catch (NumberFormatException e) {
+			 e.printStackTrace();
+		}
+		
+		try {
+			roomPrice = Double.parseDouble(roomPriceString);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		if(roomDAO.checkRoom(roomID)) {
+			baoLoi += "Phòng đã tồn tại";
+		}
+		if(baoLoi.length() > 0) {
+			PrintWriter out = response.getWriter();
+			out.println(baoLoi);
+		}else {
+			Room new_room = new Room(roomID, roomName, roomAmount, roomType, roomPrice, roomStatus, roomDescription);
+			roomDAO.insert(new_room);
+			url = "/manager.jsp";
+		}
+		ArrayList<Room> roomList = roomDAO.selectAll();
+		request.setAttribute("roomList", roomList);
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+		rd.forward(request, response);
 	}
 
 	/**

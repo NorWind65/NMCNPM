@@ -1,5 +1,10 @@
+<%@ page import="DAO.OrderDAO"%>
+<%@ page import ="java.util.ArrayList"%>
+<%@ page import ="model.Order"  %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +52,7 @@
               no-repeat;
           "
         ></div>
-        <span>Công Hùng</span>
+        <span>Đức Huy</span>
       </div>
 
       <!-- Hiển thị danh sách phòng -->
@@ -218,34 +223,57 @@
               <th style="width: 10%">Trạng thái</th>
               <th style="width: 10%">Hành động</th>
             </tr>
-            <tr class="book-room">
-              <td>1</td>
-              <td>Phòng 101</td>
-              <td style="text-align: left">
-                <ul>
-                  <li><span>Tên:</span>Nguyễn Văn A</li>
-                  <li><span>Email:</span>nguyenvana@gmail.com</li>
-                  <li><span>Phone:</span> 0313232232</li>
-                </ul>
-              </td>
-              <td style="text-align: left">
-                <ul>
-                  <li><span>Ngày nhận phòng:</span>2023-03-17:20:10</li>
-                  <li><span>Ngày trả phòng:</span>2023-03-17:20:10</li>
-                  <li><span>Tổng tiền:</span>2.400.000 VND</li>
-                </ul>
-              </td>
-              <td>123456</td>
-              <td>Đã thanh toán</td>
-              <td>
-                <button class="btn-edit-room" onclick="handleEditBookRoom()">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button class="btn-delete-room">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
+             <%
+           		int stt=1;
+           		//ArrayList<Order> list = new OrderDAO().selectAll();
+           		
+           		ArrayList<Order> list = ( ArrayList<Order> ) request.getAttribute("listO");
+           		
+           		if(list != null){
+	           		for(Order od : list){
+	           %>
+	           			<tr class="book-room">
+	           			
+	           			<td><%= (stt++) %></td>
+	           			<td><%= od.getRoomID() %>   </td>
+	           			
+		           		<td style="text-align: left">
+		           			<ul>
+		           			<li><span>Tên:</span><%= od.getCustomerName() %></li>
+		           			<li><span>CCCD:</span><%= od.getCustomerCitizenID() %></li>
+		           			<li><span>Phone:</span><%= od.getCustomerPhoneNumber() %></li>
+		           			</ul>
+			            </td>
+			            	
+			            <td style="text-align: left">
+		           			<ul>
+		           			<li><span>Ngày nhận phòng:</span> <%= od.getTimeStart() %></li>
+		           			<li><span>Ngày trả phòng:</span><%= od.getTimeEnd() %></li>
+		           			<li><span>Tổng tiền:</span><%= od.getOrderPrice() %></li>
+		           			</ul>
+			            </td>
+			            	
+			            <td><%= od.getOrderID() %></td>
+			            <td><%= od.getOrderStatus() %></td>
+			            	
+			            	<td>
+			                
+				            <button class="btn-edit-room" onclick="handleEditBookRoom()"> 
+				               <i class="fa-solid fa-pen"></i>
+				              </button>
+				              	
+				              	<button class="btn-delete-room" >
+				            
+				                <i class="fa-solid fa-trash" ></i>
+				              	</button>
+				            	
+			              </td>
+	           			</tr>
+	           		<% 
+           			}
+	           		
+           		}
+           		%>
           </table>
         </div>
       </div>

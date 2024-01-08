@@ -9,4 +9,14 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>FindOrder</display-name>
+    <servlet-name>FindOrder</servlet-name>
+    <servlet-class>controller.FindOrder</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FindOrder</servlet-name>
+    <url-pattern>/FindOrder</url-pattern>
+  </servlet-mapping>
 </web-app>

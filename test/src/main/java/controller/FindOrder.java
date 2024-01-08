@@ -1,28 +1,27 @@
 package controller;
 
-import java.io.IOException;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import DAO.AccountDAO;
-import model.Account;
+import java.io.IOException;
+import java.util.ArrayList;
+import model.Order;
+import DAO.OrderDAO;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class FindOrder
  */
-@WebServlet("/Login")
-public class Login extends HttpServlet {
+@WebServlet("/FindOrder")
+public class FindOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public FindOrder() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,34 +30,17 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Lấy giữ liệu từ trang HTML
-		String accountID = request.getParameter("accountID");
-		String accountPassword = request.getParameter("accountPassword");
+		// TODO Auto-generated method stub
 		
-		Account account_data = new Account();
-		account_data.setAccountID(accountID);
-		account_data.setAccountPassword(accountPassword);
-		
-		AccountDAO ad = new AccountDAO();
-		Account account = ad.selectByUsernameAndPassWord(account_data);		
-		String url = "";
-		if(account !=null) {
-			String level = account.getAcconutLevel();
-			if(level.equals("manager")) {
-				url = "/manager.jsp";
-			}
-			if(level.equals("employee")) {
-				url = "/staff.jsp";
-			}
-		}else {
-			request.setAttribute("baoLoi", "Thông tin đăng nhập không chính xác");
-			url = "/index.jsp";
+		OrderDAO dao= new OrderDAO();
+		ArrayList<Order > list= dao.selectAll();
+		for( Order a: list) {
+			System.out.println(a.getOrderID()+ " "+ a.getOrderPrice() +" "+a.getCustomerName());
 		}
-		
-		
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
+		request.setAttribute("listO", list);
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/staff.jsp");
 		rd.forward(request, response);
-	}
+		}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
