@@ -4,7 +4,6 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -197,18 +196,17 @@
 
     <!-- Danh sách đơn đặt phòng -->
     <div class="staff-content-container list-book-room">
-      <div class="title">Danh sách đơn đặt phòng</div>
+      <div class="title" >Danh sách đơn đặt phòng</div>
       <div class="search">
-        <input
-          type="text"
-          id="search"
-          name="search"
-          placeholder="Nhập mã đặt phòng"
-        />
-        <button class="btn-search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          Tìm kiếm
-        </button>
+		 <form action="FindOrder" method="post">	
+	        <input type="text"  id="search" name="search"
+	          placeholder="Nhập mã đặt phòng"
+	        />
+	        <button type="submit" class="btn-search">
+	          <i class="fa-solid fa-magnifying-glass"></i>
+	          Tìm kiếm
+	        </button>
+		</form> 
       </div>
 
       <div class="staff-content">
@@ -222,20 +220,26 @@
               <th style="width: 10%">Mã đặt phòng</th>
               <th style="width: 10%">Trạng thái</th>
               <th style="width: 10%">Hành động</th>
-            </tr>
-             <%
-           		int stt=1;
+            </tr>	
+            <% int stt=1; %>
+        	<%
+        		
            		//ArrayList<Order> list = new OrderDAO().selectAll();
+        		ArrayList<Order> list =new ArrayList<Order>() ; 
+           		list = ( ArrayList<Order> ) request.getAttribute("listO");
+           		if( list == null ){
+           			list = new OrderDAO().selectAll();
+           		}
+         
            		
-           		ArrayList<Order> list = ( ArrayList<Order> ) request.getAttribute("listO");
            		
-           		if(list != null){
+           		if(!list.isEmpty()){
 	           		for(Order od : list){
-	           %>
-	           			<tr class="book-room">
+	        %>
+					<tr class="book-room">
 	           			
 	           			<td><%= (stt++) %></td>
-	           			<td><%= od.getRoomID() %>   </td>
+	           			<td><%= od.getRoomID() %>  </td>
 	           			
 		           		<td style="text-align: left">
 		           			<ul>
@@ -256,7 +260,7 @@
 			            <td><%= od.getOrderID() %></td>
 			            <td><%= od.getOrderStatus() %></td>
 			            	
-			            	<td>
+			            <td>
 			                
 				            <button class="btn-edit-room" onclick="handleEditBookRoom()"> 
 				               <i class="fa-solid fa-pen"></i>
@@ -269,11 +273,12 @@
 				            	
 			              </td>
 	           			</tr>
-	           		<% 
-           			}
-	           		
+
+			<% 
            		}
-           		%>
+           	}
+           	
+           	%>
           </table>
         </div>
       </div>

@@ -31,15 +31,21 @@ public class FindOrder extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String OID= request.getParameter("search");
 		
 		OrderDAO dao= new OrderDAO();
-		ArrayList<Order > list= dao.selectAll();
-		for( Order a: list) {
-			System.out.println(a.getOrderID()+ " "+ a.getOrderPrice() +" "+a.getCustomerName());
+		ArrayList<Order > list = new ArrayList<Order >();
+		if(OID.equals("All")  ) {
+			 list = dao.selectAll()   ;
 		}
+		else {
+			Order o = dao.selectById(OID);
+			if( o != null ) 
+				list.add(o);
+		}	
+
 		request.setAttribute("listO", list);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/staff.jsp");
-		rd.forward(request, response);
+		request.getRequestDispatcher("staff.jsp").forward(request, response);
 		}
 
 	/**

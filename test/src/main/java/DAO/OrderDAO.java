@@ -52,7 +52,8 @@ public class OrderDAO implements DAOInterface<Order> {
 			//Tạo kết nối đến CSDL
 			Connection connection = JDBCconnection.getConnection();
 			// Tạo ra đối tượng statement
-			String sql = "SELECT * FROM order WHERE idOrder = ?";
+			String sql = "SELECT * FROM hotelmanagenment.order\r\n"
+					+ "where idOrder = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, id);
 			//Thực thi câu lệnh sql
