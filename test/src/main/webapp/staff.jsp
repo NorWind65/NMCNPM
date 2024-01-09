@@ -222,6 +222,7 @@
               <th style="width: 10%">Hành động</th>
             </tr>	
             <% int stt=1; %>
+            <% Order tmpO = new OrderDAO().selectById("O001"); %>
         	<%
         		
            		//ArrayList<Order> list = new OrderDAO().selectAll();
@@ -261,16 +262,16 @@
 			            <td><%= od.getOrderStatus() %></td>
 			            	
 			            <td>
-			                
 				            <button class="btn-edit-room" onclick="handleEditBookRoom()"> 
+				            	    <%  tmpO = od; %>	
 				               <i class="fa-solid fa-pen"></i>
-				              </button>
-				              	
-				              	<button class="btn-delete-room" >
-				            
-				                <i class="fa-solid fa-trash" ></i>
-				              	</button>
-				            	
+				            </button>
+				      
+					        <a href="DeleteOrder?Oid=<%=od.getOrderID() %>" >
+						        <button class="btn-delete-room" >
+						       		<i class="fa-solid fa-trash" ></i>
+						        </button>
+					        </a>
 			              </td>
 	           			</tr>
 
@@ -291,6 +292,7 @@
           <i class="fa-solid fa-xmark icon-close"></i>
           <div class="title">Chỉnh sửa thông tin</div>
           <div class="content">
+          
             <div class="room-name">
               <label for="room-name">Tên phòng</label>
               <input type="text" id="room-name" name="room-name" />
@@ -354,17 +356,25 @@
 
     <div class="edit-book-room-container">
       <div class="edit-book-room-modal">
-        <form action="" method="POST">
+      
+        <form action="EditOrder?edit-order-id=<%=tmpO.getOrderID() %>" method="POST">
           <i class="fa-solid fa-xmark icon-close"></i>
           <div class="title">Chỉnh sửa đơn đặt phòng</div>
+     
+              
           <div class="content">
             <div class="customer-name">
               <label for="customer-name">Tên khách hàng</label>
-              <input type="text" id="customer-name" name="customer-name" />
+              <input 
+             value="<%= tmpO.getCustomerName() %>"
+              type="text" 
+              id="customer-name" 
+              name="customer-name" />
             </div>
             <div class="customer-telephone">
               <label for="customer-telephone">Số điện thoại</label>
               <input
+         		value="<%= tmpO.getCustomerPhoneNumber() %>"
                 type="text"
                 id="customer-telephone"
                 name="customer-telephone"
@@ -372,17 +382,29 @@
             </div>
             <div class="time-start">
               <label for="time-start">Ngày nhận phòng</label>
-              <input type="date" id="time-start" name="time-start" />
+              <input 
+              value = "<%= tmpO.getTimeStart() %>"
+              type="date" 
+              id="time-start" 
+              name="time-start" />
             </div>
             <div class="time-end">
               <label for="time-end">Ngày trả phòng</label>
-              <input type="date" name="time-end" id="time-end" />
+              <input  
+              value = "<%= tmpO.getTimeEnd() %>"
+              type="date" 
+              name="time-end" 
+              id="time-end" />
             </div>
             <div class="status">
               <label for="status">Trạng thái</label>
-              <input type="text" name="status" id="status" />
+              <input 
+               value = "<%= tmpO.getOrderStatus() %>"
+               type="text" 
+               name="status" 
+               id="status" />
             </div>
-            <div class="btn-submit btn btn-primary">Cập nhật</div>
+            <button type="submit" class="btn-submit btn btn-primary">Cập nhật</button>
           </div>
         </form>
       </div>

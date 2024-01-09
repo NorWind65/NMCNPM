@@ -19,4 +19,34 @@
     <servlet-name>FindOrder</servlet-name>
     <url-pattern>/FindOrder</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeleteOrder</display-name>
+    <servlet-name>DeleteOrder</servlet-name>
+    <servlet-class>controller.DeleteOrder</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteOrder</servlet-name>
+    <url-pattern>/DeleteOrder</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LoadOrder</display-name>
+    <servlet-name>LoadOrder</servlet-name>
+    <servlet-class>controller.LoadOrder</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoadOrder</servlet-name>
+    <url-pattern>/LoadOrder</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EditOrder</display-name>
+    <servlet-name>EditOrder</servlet-name>
+    <servlet-class>controller.EditOrder</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditOrder</servlet-name>
+    <url-pattern>/EditOrder</url-pattern>
+  </servlet-mapping>
 </web-app>

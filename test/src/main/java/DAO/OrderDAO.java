@@ -133,7 +133,8 @@ public class OrderDAO implements DAOInterface<Order> {
 			//Tạo kết nối đến CSDL
 			Connection connection = JDBCconnection.getConnection();
 			// Tạo ra đối tượng statement
-			String sql = "DELETE from order " + " WHERE idOrder = ?";
+			String sql = "DELETE FROM `hotelmanagenment`.`order`"
+					+ "WHERE idOrder = ?";
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, order.getOrderID());
 			//Thực thi câu lệnh
@@ -162,8 +163,39 @@ public class OrderDAO implements DAOInterface<Order> {
 
 	@Override
 	public boolean update(Order order) {
-		
-		return false;
+		int result = 0;
+		boolean check = false;
+		try {
+			//Tạo kết nối đến CSDL
+			Connection connection = JDBCconnection.getConnection();
+			// Tạo ra đối tượng statement
+			String sql = "UPDATE `hotelmanagenment`.`order` "
+					+ "SET "
+					+ "`customerName` = ?, "
+					+ "`customerPhoneNumber` = ?, "
+					+ "`timeStart` = ? , "
+					+ "`timeEnd` = ? , "
+					+ "`orderStatus` =? "
+					+ "WHERE `idOrder` = ? ";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, order.getCustomerName());
+			statement.setString(2, order.getCustomerPhoneNumber());
+			statement.setDate(3, order.getTimeStart());
+			statement.setDate(4, order.getTimeEnd());
+			statement.setString(5, order.getOrderStatus());
+			statement.setString(6, order.getOrderID());
+			//Thực thi câu lệnh sql
+			result = statement.executeUpdate();
+			//Xử lí kết quả:
+			System.out.println("Có " + result + " dòng bị thay đổi!");
+
+			//Ngắt kết nối với cơ sở dữ liệu
+			JDBCconnection.closeConnection(connection);
+			check = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return check;
 	}
 	
 }
