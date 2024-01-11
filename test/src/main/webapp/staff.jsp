@@ -222,7 +222,7 @@
               <th style="width: 10%">Hành động</th>
             </tr>	
             <% int stt=1; %>
-            <% Order tmpO = new OrderDAO().selectById("O001"); %>
+            <% Order tmpO = new Order(); %>
         	<%
         		
            		//ArrayList<Order> list = new OrderDAO().selectAll();
